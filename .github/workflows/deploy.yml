@@ -1,9 +1,8 @@
-name: Deploy static site to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -12,47 +11,44 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: "pages"
   cancel-in-progress: true
+
+env:
+  # Prefer repo variable VITE_BASE if set; otherwise default to repo name
+  # Example override in repo settings → Variables: VITE_BASE=/custom-repo-name/
+  VITE_BASE: ${{ vars.VITE_BASE || format('/{0}/', github.event.repository.name) }}
 
 jobs:
   build:
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          enablement: true
-      - name: Verify site files exist
+          node-version: "20"
+          cache: npm
+      - name: Install
         run: |
-          if [ ! -f "public/index.html" ]; then
-            echo "Error: public/index.html not found. Ensure your site files are under ./public." >&2
-            exit 1
-          fi
+          npm ci || npm install
+      - name: Build
+        run: npm run build
+        env:
+          VITE_BASE: ${{ env.VITE_BASE }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: ./dist
 
   deploy:
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-
