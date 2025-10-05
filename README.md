@@ -15,3 +15,4 @@ Pushing to `main` triggers the Pages workflow. If your repo name is not `wla-out
 - For production, wire real OAuth (OIDC), storage with row‑level security, and API adapters (iNaturalist/Bird audio, etc.).
 
 
+
