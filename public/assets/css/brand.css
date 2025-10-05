@@ -1,0 +1,111 @@
+/* -----------------------------
+   Wildlife Leadership Academy – starter theme tokens
+   Derived from on-site logo & look
+   ----------------------------- */
+
+:root{
+  --wla-blue:   #00A7C8;  /* trout tile */
+  --wla-orange: #E27A3B;  /* outreach accent */
+  --wla-sage:   #A7A17A;  /* habitat/olive */
+  --wla-ink:    #111111;  /* silhouettes / headings */
+  --wla-cream:  #F7F4EF;  /* subtle page background */
+
+  --text:       var(--wla-ink);
+  --bg:         var(--wla-cream);
+  --link:       var(--wla-blue);
+  --link-hover: #0FB3D7;  /* lighter hover */
+  --btn:        var(--wla-orange);
+  --btn-hover:  #C9652F;
+}
+
+/* Base / typography */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+body{
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  font-family: "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Headings — use Montserrat if available */
+h1, h2, h3, h4, h5, h6{
+  font-family: "Montserrat", "Open Sans", system-ui, Arial, sans-serif;
+  color: var(--wla-ink);
+  line-height: 1.25;
+  margin: 0 0 .6rem 0;
+}
+
+/* Links */
+a{
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover, a:focus{
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Buttons */
+.btn,
+button,
+input[type="submit"]{
+  display: inline-block;
+  padding: .65em 1.1em;
+  border-radius: 6px;
+  border: none;
+  background: var(--btn);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn:hover,
+button:hover,
+input[type="submit"]:hover{
+  background: var(--btn-hover);
+}
+
+/* Utility backgrounds */
+.bg-blue  { background: var(--wla-blue);  color: #fff; }
+.bg-sage  { background: var(--wla-sage);  color: #111; }
+.bg-cream { background: var(--wla-cream); color: var(--text); }
+
+/* Cards/sections */
+.section{
+  padding: clamp(1.25rem, 2vw + .5rem, 2.5rem);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 24px rgba(0,0,0,.06);
+  margin: 1rem 0;
+}
+
+/* Accessibility helpers */
+:focus { outline: 3px solid var(--wla-blue); outline-offset: 2px; }
+
+/* Header / brand bar */
+.brand-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+}
+.brand-logos{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-logos img{ height: 40px; width: auto; display: block; }
+.brand-title{
+  font-weight: 700;
+  color: var(--wla-ink);
+}
+
+@media (min-width: 640px){
+  .brand-logos img{ height: 52px; }
+}
+
+
