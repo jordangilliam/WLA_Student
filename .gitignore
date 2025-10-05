@@ -1,23 +1,8 @@
-# OS
+node_modules
+.dist
 .DS_Store
-Thumbs.db
-
-# Node
-node_modules/
-npm-debug.log*
-pnpm-lock.yaml
-yarn.lock
-
-# Python http.server cache
-__pycache__/
-
-# Builds
-dist/
-build/
-*.log
-
-# Env
 .env
 .env.*
+.vscode
 
 
