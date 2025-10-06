@@ -27,6 +27,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Preflight verify project structure
+        run: |
+          set -e
+          echo "Listing repo root:" && ls -la
+          echo "Listing src:" && ls -la src || (echo "src/ directory missing" && exit 1)
+          echo "Show index.html head:" && sed -n '1,40p' index.html
+          echo "Verify script tag references ./src/main.tsx"
+          grep -E "src=\"\./src/main\.tsx\"" index.html || (echo "index.html script src not ./src/main.tsx" && exit 1)
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -34,8 +42,13 @@ jobs:
       - name: Install
         run: |
           npm ci || npm install
-      - name: Lint
-        run: npm run lint
+      - name: Lint (skip if no source files)
+        run: |
+          if ls src/*.ts src/*.tsx src/**/*.ts src/**/*.tsx 1> /dev/null 2>&1; then
+            npm run lint
+          else
+            echo "No TS/TSX files found; skipping lint"
+          fi
       - name: Test
         run: npm run test:ci
       - name: Build
