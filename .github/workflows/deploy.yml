@@ -49,8 +49,18 @@ jobs:
           else
             echo "No TS/TSX files found; skipping lint"
           fi
-      - name: Test
-        run: npm run test:ci
+      - name: Test (skip if no test files)
+        shell: bash
+        run: |
+          set -e
+          shopt -s nullglob dotglob globstar
+          tests=(src/**/*.{test,spec}.{ts,tsx,js,jsx})
+          if ((${#tests[@]})); then
+            echo "Found ${#tests[@]} test file(s):" && printf '%s\n' "${tests[@]}"
+            npm run test:ci
+          else
+            echo "No test files found; skipping tests"
+          fi
       - name: Build
         run: npm run build
         env:
